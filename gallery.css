@@ -1,0 +1,63 @@
+/* 
+	CSS styles for family.5jt.com sjt@5jt.com 7apr2010
+ */
+
+* {
+	font-size: 100%;
+	margin: 0; 
+	padding: 0;
+}
+
+/* TYPE */
+body {font-family: Verdana, Arial, Helvetica, sans-serif}
+
+body
+	{font-size: 75%}
+
+body {
+	background: #FFD;
+	padding: 1em;
+}
+cite {font-style: italic}
+h1 {font-size: 2em}
+img {
+	background: white;
+	border: 1px solid #DDF;
+	display: block;
+	float: right;
+	padding: 5px;
+	margin: 0 0 1em 1em;
+}
+table {
+	margin: 1em auto;
+}
+td {
+	padding: 1em;
+	vertical-align: top;
+}
+
+p.note {color: gray}
+td.left {text-align: center}
+
+/* LAYOUT */
+#TOC {
+	background: black;
+	border-radius: 12px;
+	-moz-border-radius: 8px;
+	color: white;
+	list-style: none;
+	margin: 1em 0 0 0;
+	padding: 1em;
+	position: relative;
+}
+#TOC li {
+	cursor: pointer;
+	display: inline;
+	padding: 0 0.5em;
+}
+#TOC li.tocOff {color: white}
+#TOC li.tocOn  {color: orange}
+
+.italic {font-style: italic}
+.location {border-bottom: 1px dotted black}
+.person {white-space: nowrap}
