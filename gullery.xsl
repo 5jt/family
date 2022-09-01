@@ -3,18 +3,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:template match="/">
-		<html lang="en-gb">
-			<head>
-				<link rel="stylesheet" href="gullery.css" type="text/css"/>
-				<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-				<script src="gullery.js"> </script>
-				<title>Family pictures | 5jt.com</title>
-			</head>
-			<body>
-				<header>
-					<h1>Loading…</h1>
-				</header>
-
 				<!-- <article style="display: none"> -->
 				<article>
 
@@ -38,8 +26,6 @@
 
 			</article>
 
-			</body>
-		</html>
 	</xsl:template>
 
 <!-- 	<xsl:template match="person[@pid and position() = 1]">
