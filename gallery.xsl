@@ -4,7 +4,7 @@
 		xmlns:html="http://www.w3.org/1999/xhtml"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:output method="xml" omit-xml-declaration="yes"/>
+	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" version="5"/>
 	
 	<xsl:param name="cellsPerRow" select="3"/>
 	<xsl:param name="myPerson">All</xsl:param>
@@ -33,9 +33,10 @@
 
 	<xsl:template match="/">
 
-		<div id="WRAPPER">
+		<article id="WRAPPER">
 		
-			<ul id="TOC">
+			<header>
+				<ul id="TOC">
 				<!-- 'All' selector --> 
 				<xsl:element name="li">
 					<xsl:attribute name="onclick">displayResult('All')</xsl:attribute>
@@ -61,9 +62,29 @@
 						<xsl:value-of select="@id"/>
 					</xsl:element>
 				</xsl:for-each>
-			</ul>
+				</ul>
+			</header>
 			
-			<table id="MAIN">
+			<xsl:choose>
+				<xsl:when test="$myPerson='All'">
+					<xsl:for-each select="gallery/images/image">
+						<xsl:sort select="year" />
+						<xsl:call-template name="animage"/>
+					</xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
+						<xsl:sort select="year" />
+						<xsl:call-template name="animage"/>
+					</xsl:for-each>
+				</xsl:otherwise>
+			</xsl:choose>
+
+			<xsl:template name="animage">
+				<section>An image</section>
+			</xsl:template>
+
+<!-- 			<table id="MAIN">
 				<tbody>
 					<xsl:choose>
 						<xsl:when test="$myPerson='All'">
@@ -82,7 +103,8 @@
 				</tbody>
 			</table>
 
-		</div><!--WRAPPER-->
+ -->		
+		</article><!--WRAPPER-->
 
 	</xsl:template>
 	
