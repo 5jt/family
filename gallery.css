@@ -1,62 +1,94 @@
-/* 
-	CSS styles for family.5jt.com sjt@5jt.com 7apr2010
- */
-
 * {
 	font-size: 100%;
 	margin: 0; 
 	padding: 0;
 }
 
-/* TYPE */
-body {font-family: Verdana, Arial, Helvetica, sans-serif}
-
-body
-	{font-size: 75%}
-
 body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 75%;
 	background: #FFD;
 	padding: 1em;
 }
+
 cite {font-style: italic}
+
 h1 {font-size: 2em}
-img {
-	background: white;
-	border: 1px solid #DDF;
-	display: block;
-	float: right;
-	padding: 5px;
-	margin: 0 0 1em 1em;
-}
-table {
-	margin: 1em auto;
-}
-td {
-	padding: 1em;
-	vertical-align: top;
+
+article section {
+	/*align-content: space-between;*/
+	align-items: flex-start;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
-p.note {color: gray}
-td.left {text-align: center}
+figcaption {
+	display: none;
+}
+
+/*figure: general*/
+figure {
+	padding: 5px;
+}
+figure img {
+	border: 1px solid rgba(0,0,0,.2);
+	cursor: pointer;
+	display: block;
+	margin: 0 auto 4px;
+	max-width: 100%;
+}
+figure>header {
+	display: block;
+}
+
+/*figure: thumb*/
+figure.thumb {
+	display: block;
+	max-width: 150px;
+}
+figure.thumb img {
+	max-height: 250px;
+	max-width: 140px;
+}
+
+/*figure: hidden*/
+figure.hidden {
+	display: none;
+}
+
+/*figure:  selected*/
+figure.selected {
+	display: block;
+	margin: 0 auto;
+}
+figure.selected figcaption {
+	display: block;
+}
+figure.full>header {
+	font-weight: bold;
+}
 
 /* LAYOUT */
-#TOC {
+article header nav {
 	background: black;
 	border-radius: 12px;
 	-moz-border-radius: 8px;
 	color: white;
+	display: block;
 	list-style: none;
 	margin: 1em 0 0 0;
 	padding: 1em;
 	position: relative;
 }
-#TOC li {
+article header nav li {
 	cursor: pointer;
 	display: inline;
 	padding: 0 0.5em;
 }
-#TOC li.tocOff {color: white}
-#TOC li.tocOn  {color: orange}
+article header nav li.tocoff {color: white}
+article header nav li.tocon  {color: orange}
 
 .italic {font-style: italic}
 .location {border-bottom: 1px dotted black}

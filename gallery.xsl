@@ -1,156 +1,66 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xsl:stylesheet version="1.0"
-		xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:html="http://www.w3.org/1999/xhtml"
-		xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" version="5"/>
-	
-	<xsl:param name="cellsPerRow" select="3"/>
-	<xsl:param name="myPerson">All</xsl:param>
-	
-	<xsl:variable name="colWid" select="floor(100 div $cellsPerRow)"/>
 
-	<xsl:variable name="sortedImageIds">
-		<!-- used instead of perform-sort in XSLT 2.0 -->
-		<xsl:choose>
-			<xsl:when test="$myPerson='All'">
-				<xsl:for-each select="gallery/images/image">
-					<xsl:sort select="year"/>
-					<xsl:value-of select="generate-id()"/>
-					<xsl-text>; </xsl-text>
-				</xsl:for-each>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:for-each select="gallery/images/image[person[@pid=$myPerson]]">
-					<xsl:sort select="year"/>
-					<xsl:value-of select="generate-id()"/>
-					<xsl-text>; </xsl-text>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+	<xsl:param name="myPerson">All</xsl:param>
 
 	<xsl:template match="/">
+		<article>
 
-		<article id="WRAPPER">
-		
 			<header>
-				<ul id="TOC">
-				<!-- 'All' selector --> 
-				<xsl:element name="li">
-					<xsl:attribute name="onclick">displayResult('All')</xsl:attribute>
-					<xsl:attribute name="class">
-						<xsl:choose>
-							<xsl:when test="$myPerson='All'">tocOn</xsl:when>
-							<xsl:otherwise>tocOff</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					All
-				</xsl:element>
-				<!-- person selectors --> 
-				<xsl:for-each select="gallery/people/person">
-					<xsl:sort select="@id"/>
-					<xsl:element name="li">
-						<xsl:attribute name="onclick">displayResult('<xsl:value-of select="@id"/>')</xsl:attribute>
-						<xsl:attribute name="class">
-							<xsl:choose>
-								<xsl:when test="$myPerson=@id">tocOn</xsl:when>
-								<xsl:otherwise>tocOff</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:value-of select="@id"/>
-					</xsl:element>
-				</xsl:for-each>
-				</ul>
+				<nav>
+					<ul>
+						<li class="tocon">All</li>
+						<xsl:for-each select="gallery/people/person">
+							<xsl:sort select="@id"/>
+							<li class="tocoff"><xsl:value-of select="@id"/></li>
+						</xsl:for-each>
+					</ul>
+				</nav>
 			</header>
+
+			<section>
 			
-			<xsl:choose>
-				<xsl:when test="$myPerson='All'">
-					<xsl:for-each select="gallery/images/image">
-						<xsl:sort select="year" />
-						<xsl:call-template name="animage"/>
-					</xsl:for-each>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
-						<xsl:sort select="year" />
-						<xsl:call-template name="animage"/>
-					</xsl:for-each>
-				</xsl:otherwise>
-			</xsl:choose>
+				<xsl:choose>
+					<xsl:when test="$myPerson='All'">
+						<xsl:for-each select="gallery/images/image">
+							<xsl:sort select="year"/>
+							<xsl:call-template name="animage"/>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<!-- <xsl:for-each select="gallery/images/image"> -->
+						<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
+							<xsl:sort select="year" />
+							<xsl:call-template name="animage"/>
+						</xsl:for-each>
+					</xsl:otherwise>
+				</xsl:choose>
 
-			<xsl:template name="animage">
-				<section>An image</section>
-			</xsl:template>
+			</section>
 
-<!-- 			<table id="MAIN">
-				<tbody>
-					<xsl:choose>
-						<xsl:when test="$myPerson='All'">
-							<xsl:for-each select="gallery/images/image">
-								<xsl:sort select="year" />
-								<xsl:call-template name="a.row"/>
-							</xsl:for-each>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
-								<xsl:sort select="year" />
-								<xsl:call-template name="a.row"/>
-							</xsl:for-each>
-						</xsl:otherwise>
-					</xsl:choose>
-				</tbody>
-			</table>
-
- -->		
-		</article><!--WRAPPER-->
+		</article>
 
 	</xsl:template>
-	
-	
-	<xsl:template name="a.row">
-		<xsl:choose>
-			<xsl:when test="$cellsPerRow=1">
-				<tr><xsl:apply-templates select="."/></tr>
-			</xsl:when>
-			<xsl:when test="position() mod $cellsPerRow =1">
-				<tr>
-					<xsl:call-template name="table.cell">
-						<xsl:with-param name="col" select="1"/>
-						<xsl:with-param name="gid" select="generate-id()"/>
-					</xsl:call-template>
-				</tr>
-			</xsl:when>
-		</xsl:choose>
-	</xsl:template>
-  
-  
-	<xsl:template name="table.cell">
-		<xsl:param name="col"/>
-		<xsl:param name="gid"/>
-		<xsl:apply-templates select="/gallery/images/image[generate-id()=$gid]"/>
-		<xsl:if test="$col &lt; $cellsPerRow">
-			<xsl:call-template name="table.cell">
-				<xsl:with-param name="col" select="$col+1"/>
-				<xsl:with-param name="gid" select="substring-before(substring-after($sortedImageIds,concat($gid,'; ')),';')"/>
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:template>
-  
 
-  
-	<xsl:template match="image">
-		<xsl:element name="td">
-			<xsl:attribute name="style">width: <xsl:value-of select="$colWid"/>%</xsl:attribute>
-			<a href="images/{@src}" title="{@src}"><img src="images/thmb/{@src}" alt="{@src}" /></a>
-			<xsl:apply-templates select="year"/>
-			<xsl:apply-templates select="person"/>
-			<xsl:apply-templates select="location"/>
-			<xsl:apply-templates select="note"/>
-		</xsl:element>
+	<xsl:template name="animage">
+		<figure class="thumb">
+			<img>
+				<xsl:attribute name="src">images/<xsl:value-of select="@src"/></xsl:attribute>
+			</img>
+			<header>
+				<xsl:apply-templates select="year"/>
+				<xsl:apply-templates select="person"/>
+				<xsl:apply-templates select="location"/>
+			</header>
+			<figcaption>
+				<xsl:apply-templates select="note"/>
+				<!-- <xsl:apply-templates select="person/[position() > 1]"/> -->
+			</figcaption>
+		</figure>
 	</xsl:template>
-
 
 	<xsl:template match="location">
 		at 
@@ -214,11 +124,6 @@
 			<xsl:otherwise><strong><xsl:value-of select="."/></strong></xsl:otherwise>
 		</xsl:choose>
 		<xsl:text> </xsl:text>
-	</xsl:template>
-
-
-	<xsl:template match="*" mode="html">
-		<xsl:copy-of select="."/>
 	</xsl:template>
 
 
