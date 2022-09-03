@@ -15,7 +15,7 @@ cite {font-style: italic}
 
 h1 {font-size: 2em}
 
-article {
+article section {
 	/*align-content: space-between;*/
 	align-items: flex-start;
 	display: flex;
@@ -30,14 +30,14 @@ figcaption {
 
 /*figure: general*/
 figure {
-	cursor: pointer;
 	padding: 5px;
 }
 figure img {
 	border: 1px solid rgba(0,0,0,.2);
+	cursor: pointer;
 	display: block;
 	margin: 0 auto 4px;
-	/*max-width: 100%;*/
+	max-width: 100%;
 }
 figure>header {
 	display: block;
@@ -69,3 +69,27 @@ figure.selected figcaption {
 figure.full>header {
 	font-weight: bold;
 }
+
+/* LAYOUT */
+#TOC {
+	background: black;
+	border-radius: 12px;
+	-moz-border-radius: 8px;
+	color: white;
+	display: block;
+	list-style: none;
+	margin: 1em 0 0 0;
+	padding: 1em;
+	position: relative;
+}
+#TOC li {
+	cursor: pointer;
+	display: inline;
+	padding: 0 0.5em;
+}
+#TOC li.tocoff {color: white}
+#TOC li.tocon  {color: orange}
+
+.italic {font-style: italic}
+.location {border-bottom: 1px dotted black}
+.person {white-space: nowrap}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="gullery.xsl"?>
+<!-- <?xml-stylesheet type="text/xsl" href="gullery.xsl"?> -->
 <gallery>
 
 	<people>
@@ -1512,13 +1512,13 @@
 		<image src="image0-1.jpeg">
 			<person pid="Bel"/>
 			<person pid="Nanna"/>
-			<person>Mary Collins (née Heathcote)</person>
+			<person>Mary Collins</person>
 			<person>Ellen Heathcote</person>
 			<person>Pat Ewart</person>
 			<person>Ellen Parkes</person>
-			<person>Uncle Jack (Herbert Parkes’ brother)</person>
+			<person>Uncle Jack</person>
 			<person>Herbert Parkes</person>
-			<person>Janet Heathcote (née Patrick)</person>
+			<person>Janet Heathcote</person>
 			<person>Euphemia Patrick</person>
 			<year sure="yes">1935</year>
 			<note by="Robert Hayman-Collins">

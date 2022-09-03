@@ -11,12 +11,17 @@ xhttp.send("");
 return xhttp.responseXML;
 }
 ///////////////////////////////////////////////////////////////////
-window.addEventListener('load', (event) => {
-    console.log('Page has loaded');
-    let title = document.querySelector('body>header>h1');
-    title.innerText = 'Loading…';
+document.addEventListener('DOMContentLoaded', () => {
     xml = loadXMLDoc("gullery.xml");
     xsl = loadXMLDoc("gullery.xsl");
+    console.log('Loaded XML and XSL');
+    populateFor('All'); // replace article
+    // setImageListeners(document.querySelectorAll('figure');
+});
+///////////////////////////////////////////////////////////////////
+populateFor = aPerson => {
+    let title = document.querySelector('body>header>h1');
+    title.innerText = 'Loading…';
     // code for IE
     if (window.ActiveXObject || xhttp.responseType == "msxml-document")
       {
@@ -24,14 +29,13 @@ window.addEventListener('load', (event) => {
         XSLTCompiled.stylesheet = xsl.documentElement;
 
         let xsltProc = XSLTCompiled.createProcessor();
-        // xsltProc.addParameter("cellsPerRow", nColumns);
-        // xsltProc.addParameter("myPerson", aPerson);
+        xsltProc.addParameter("myPerson", aPerson);
 
         xsltProc.input = xml;
         xsltProc.transform();
         ex=xsltProc.output;
 
-        document.getElementById("WRAPPER").innerHTML=ex;
+        document.querySelector("article").innerHTML=ex;
         title.innerText = 'Family pictures (IE)';
       }
     // code for Chrome, Firefox, Opera, etc.
@@ -39,18 +43,64 @@ window.addEventListener('load', (event) => {
       {
         let xsltProc = new XSLTProcessor();
         xsltProc.importStylesheet(xsl);
-        // xsltProc.setParameter(null, "cellsPerRow", nColumns);
-        // xsltProc.setParameter(null, "myPerson", aPerson);
-        let resultDocument = xsltProc.transformToFragment(xml, document);
-        let body = document.getElementById("debody");
-        body.replaceChild(resultDocument, document.getElementById("WRAPPER"));
-        title.innerText = 'Family pictures';
+        xsltProc.setParameter(null, "myPerson", aPerson);
+        let art = xsltProc.transformToFragment(xml, document);
+        document.querySelector('body').replaceChild(art, document.querySelector("article"));
+        title.innerText = 'Family pictures' + (aPerson=='All' ? '' : ' for ' + aPerson);
       }
     else {
         title.innerText = 'Unable to load pictures';
       }
-});
+    figs = document.querySelectorAll('figure');
+    console.log(figs.length + ' images rendered');
+    // callbacks for content filters
+    document.querySelector('nav').addEventListener('click', e => {
+        console.log('Clicked filter ' + e.target.innerText);
+        if( e.target.tagName == 'LI') {
+            document.querySelectorAll('nav li').className = 'tocoff';
+            populateFor(e.target.innerText);
+            e.target.className = 'tocon';
+        }
+    });
+    // callbacks for click on images
+    document.querySelector('section').addEventListener('click', function(e) {
+        console.log('Clicked on ' + e.target.tagName);
+        console.log('Handling ' + this.tagName);
+        if( e.target.tagName == 'IMG') { // click only on image
+            let thisImg = e.target;
+            let thisFig = thisImg.parentNode;
+            let open = thisFig.className == 'thumb'; // clicked thumbnail
+            [...figs].forEach( fig => {
+                switch( fig.className ) {
+                    case 'selected': // revert to thumb
+                        fig.style.maxHeight = '250px';
+                        fig.style.maxWidth = '150px';
+                        let img = fig.querySelector('img');
+                        img.style.maxHeight = '230px';
+                        img.style.maxWidth = '140px';
+                        let newWid = img.offsetWidth + 'px';
+                        fig.querySelector('figcaption').style.width = newWid;
+                        fig.querySelector('header').style.width = newWid;
+                    case 'hidden':
+                        fig.className = 'thumb';
+                        break;
+                    default: // hide thumb
+                        fig.className = 'hidden';
+                }
+            });
+            if( open ) {
+                thisFig.className = 'selected';
+                thisImg.style.maxHeight = Math.floor(.8 * window.innerHeight) + 'px';
+                thisImg.style.maxWidth = Math.floor(.8 * window.innerWidth) + 'px';
+                let newWid = thisImg.offsetWidth + 'px';
+                thisFig.querySelector('figcaption').style.width = newWid;
+                thisFig.querySelector('header').style.width = newWid;
+            }
+        }
+    });
+};
 // http://www.mindlence.com/WP/?page_id=224
+///////////////////////////////////////////////////////////////////
 
 
 //     let figs = document.querySelectorAll('figure');

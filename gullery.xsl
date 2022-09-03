@@ -2,41 +2,66 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" version="5"/>
+
+	<xsl:param name="myPerson">All</xsl:param>
+
 	<xsl:template match="/">
-				<!-- <article style="display: none"> -->
-				<article>
+		<article>
 
-					<xsl:for-each select="gallery/images/image">
-						<xsl:sort select="year"/>
-						<figure class="thumb">
-							<img>
-								<xsl:attribute name="src">images/<xsl:value-of select="@src"/></xsl:attribute>
-							</img>
-							<header>
-								<xsl:apply-templates select="year"/>
-								<xsl:apply-templates select="person"/>
-								<xsl:apply-templates select="location"/>
-							</header>
-							<figcaption>
-								<xsl:apply-templates select="note"/>
-								<!-- <xsl:apply-templates select="person/[position() > 1]"/> -->
-							</figcaption>
-						</figure>
-					</xsl:for-each>
+			<header>
+				<nav>
+					<ul id="TOC">
+						<li class="tocon">All</li>
+						<xsl:for-each select="gallery/people/person">
+							<xsl:sort select="@id"/>
+							<li class="tocoff"><xsl:value-of select="@id"/></li>
+						</xsl:for-each>
+					</ul>
+				</nav>
+			</header>
 
-			</article>
+			<section>
+			
+				<xsl:choose>
+					<xsl:when test="$myPerson='All'">
+						<xsl:for-each select="gallery/images/image">
+							<xsl:sort select="year"/>
+							<xsl:call-template name="animage"/>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<!-- <xsl:for-each select="gallery/images/image"> -->
+						<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
+							<xsl:sort select="year" />
+							<xsl:call-template name="animage"/>
+						</xsl:for-each>
+					</xsl:otherwise>
+				</xsl:choose>
+
+			</section>
+
+		</article>
 
 	</xsl:template>
 
-<!-- 	<xsl:template match="person[@pid and position() = 1]">
-		<xsl:value-of select="@pid"/>
+	<xsl:template name="animage">
+		<figure class="thumb">
+			<img>
+				<xsl:attribute name="src">images/<xsl:value-of select="@src"/></xsl:attribute>
+			</img>
+			<header>
+				<xsl:apply-templates select="year"/>
+				<xsl:apply-templates select="person"/>
+				<xsl:apply-templates select="location"/>
+			</header>
+			<figcaption>
+				<xsl:apply-templates select="note"/>
+				<!-- <xsl:apply-templates select="person/[position() > 1]"/> -->
+			</figcaption>
+		</figure>
 	</xsl:template>
 
-	<xsl:template match="person[position() > 1]">
-		<xsl:text>, </xsl:text>
-		<xsl:value-of select="@pid"/>
-	</xsl:template>
- -->
 	<xsl:template match="location">
 		at 
 		<xsl:apply-templates select="@lid"/>
