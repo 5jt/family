@@ -703,12 +703,13 @@
 			<person pid="Jo"/>
 			<person>Chris Stevenson</person>
 			<person pid="Reg"/>
+			<person>Michael Shrimpton</person>
 			<person>Isabel Horspool</person>
 			<person pid="Bel"/>
 			<year>1967</year>
 			<location>Lucullus Restaurant, Pavilion, Bournemouth</location>
 			<note by="Jo">
-				can’t remember the occasion but was 1967 as I was 13, closest to camera
+				Can’t remember the occasion but was 1967 as I was 13, closest to camera
 				with first boyfriend Christopher Stevenson 15. Stephen also 15 at end of
 				table far side on left. Where was poor Caroline, at 7yrs old  I guess
 				she was home with the baby sitter!!! God I loved that dress, Mary Quant
@@ -1036,8 +1037,8 @@
 		</image>
 
 		<image src="max-image2.jpeg">
-			<person>Ann Patrick (née Patterson)</person>
 			<person pid="Nanna" sure="yes"/>
+			<person>Ann Patrick (née Patterson)</person>
 			<year sure="no">1904</year>
 		</image>
 
@@ -1510,13 +1511,13 @@
 		<image src="image0-1.jpeg">
 			<person pid="Bel"/>
 			<person pid="Nanna"/>
-			<person>Mary Collins (née Heathcote)</person>
+			<person>Mary Collins</person>
 			<person>Ellen Heathcote</person>
 			<person>Pat Ewart</person>
 			<person>Ellen Parkes</person>
-			<person>Uncle Jack (Herbert Parkes’ brother)</person>
+			<person>Uncle Jack</person>
 			<person>Herbert Parkes</person>
-			<person>Janet Heathcote (née Patrick)</person>
+			<person>Janet Heathcote</person>
 			<person>Euphemia Patrick</person>
 			<year sure="yes">1935</year>
 			<note by="Robert Hayman-Collins">
@@ -1717,7 +1718,7 @@
 			</note>
 		</image>
 
-		<image src="sad-satisfied.jpeg">
+		<image src="sad-but-satisfied.jpg">
 			<person pid="Caro"/>
 			<person pid="Stephen"/>
 			<year sure="yes">2022</year>
