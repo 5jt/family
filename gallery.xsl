@@ -4,49 +4,69 @@
 
 	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" version="5"/>
 
-	<xsl:param name="myPerson">All</xsl:param>
+	<xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+
+	<!-- <xsl:param name="myPerson">All</xsl:param> -->
 
 	<xsl:template match="/">
-		<article>
+		<html>
+			<head>
+				<link rel="stylesheet" href="gallery.css"/>
+				<meta charset="utf-8"/>
+				<meta name="description" content="Family pictures | Stephen Taylor"/>
+				<script src="gallery.js"></script>
+				<title>Family pictures | 5jt.com</title>
+			</head>
+			<body>
+				<h1>Family pictures</h1>
 
-			<header>
-				<nav>
-					<ul>
-						<li class="tocon">All</li>
-						<xsl:for-each select="gallery/people/person">
-							<xsl:sort select="@id"/>
-							<li class="tocoff"><xsl:value-of select="@id"/></li>
-						</xsl:for-each>
-					</ul>
-				</nav>
-			</header>
+				<article id="viewer"/>
+				
+				<article id="grid">
 
-			<section>
-			
-				<xsl:choose>
-					<xsl:when test="$myPerson='All'">
+					<header>
+						<nav>
+							<ul>
+								<li class="tocon" data-pid="all">All</li>
+								<xsl:for-each select="gallery/people/person">
+									<xsl:sort select="@id"/>
+									<li class="tocoff">
+										<xsl:attribute name="data-pid">
+											<xsl:value-of select="translate(@id, $uppercase, $lowercase)"/>
+										</xsl:attribute>
+										<xsl:value-of select="@id"/>
+									</li>
+								</xsl:for-each>
+							</ul>
+						</nav>
+					</header>
+
+					<section>
 						<xsl:for-each select="gallery/images/image">
 							<xsl:sort select="year"/>
 							<xsl:call-template name="animage"/>
 						</xsl:for-each>
-					</xsl:when>
-					<xsl:otherwise>
-						<!-- <xsl:for-each select="gallery/images/image"> -->
-						<xsl:for-each select="gallery/images/image[descendant::person[@pid=$myPerson]]">
-							<xsl:sort select="year" />
-							<xsl:call-template name="animage"/>
-						</xsl:for-each>
-					</xsl:otherwise>
-				</xsl:choose>
+					</section>
 
-			</section>
+				</article>
 
-		</article>
-
+			</body>
+		</html>
 	</xsl:template>
 
 	<xsl:template name="animage">
-		<figure class="thumb">
+		<xsl:variable name="people">
+			<xsl:for-each select="person">
+				<xsl:value-of select="./@pid"/>
+				<xsl:text> </xsl:text>
+			</xsl:for-each>
+		</xsl:variable>
+		<!-- <figure class="thumb"> -->
+		<figure>
+			<xsl:attribute name="data-people">
+				<xsl:value-of select="translate(normalize-space($people), $uppercase, $lowercase)"/>
+			</xsl:attribute>
 			<img>
 				<xsl:attribute name="src">images/<xsl:value-of select="@src"/></xsl:attribute>
 			</img>
